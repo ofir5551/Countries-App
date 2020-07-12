@@ -1,0 +1,3 @@
+<select (change)="onSelectCountry($event.target.value)">
+  <option *ngFor="let country of countryList">{{ country.name }}</option>
+</select>

@@ -1,0 +1,27 @@
+<div *ngIf="selectedCountry">
+    <p>
+      Selected country: {{ selectedCountry.name }} ({{
+        selectedCountry.nativeName
+      }})
+    </p>
+    <p>Capital: {{ selectedCountry.capital }}</p>
+    <p>Population: {{ selectedCountry.population }}</p>
+    <label>Currencies: </label>
+    <ul>
+      <li *ngFor="let currency of selectedCountry.currencies">
+        {{ currency.code }} - {{ currency.name }} ({{ currency.symbol }})
+      </li>
+    </ul>
+    <label>Languages: </label>
+    <ul>
+      <li *ngFor="let language of selectedCountry.languages">
+        {{ language.name }} ({{ language.nativeName }})
+      </li>
+    </ul>
+    <img
+      [src]="selectedCountry.flag"
+      class="img-responsive"
+      style="max-height: 200px;"
+    />
+  </div>
+  
