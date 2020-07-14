@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Country } from './country.model';
+import * as emojiFlag from 'emoji-flags';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class CountryService implements OnInit {
   countryList: Country[] = [];
   selectedCountry: Country;
   url: string =
-    'https://restcountries.eu/rest/v2/all?fields=name;population;capital;region;currencies;languages;nativeName;flag;borders;alpha3Code';
+    'https://restcountries.eu/rest/v2/all?fields=name;population;capital;region;currencies;languages;nativeName;flag;borders;alpha3Code;alpha2Code';
 
   constructor(private http: HttpClient) {}
 
@@ -46,17 +47,19 @@ export class CountryService implements OnInit {
   //     );
   // }
 
-  getCountryByName(name) {
+  setCountryByName(name) {
     this.selectedCountry = this.countryList.find(
       (country) => country.name == name
     );
 
+    // This part sets meaningful text in each element of selectedCountry.borders array
     this.selectedCountry.borders.forEach((borderAlpha3Code, i) => {
-      var border = this.countryList.find((country) => country.alpha3Code == borderAlpha3Code);
-
-      this.selectedCountry.borders[i] = border.name
+      var border = this.countryList.find(
+        (country) => country.alpha3Code == borderAlpha3Code
+      );
+      this.selectedCountry.borders[i] = `${border.name} - ${
+        emojiFlag.countryCode(border.alpha2Code).emoji
+      }`;
     });
-
-    
   }
 }

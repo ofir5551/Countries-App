@@ -19,5 +19,6 @@ export interface Country {
   currencies: Currency[];
   languages: Language[];
   borders: string[];
-  alpha3Code: string;
+  alpha2Code: string; // Israel - 'IL'
+  alpha3Code: string; // Israel - 'ISR'
 }
