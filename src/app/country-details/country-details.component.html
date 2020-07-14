@@ -1,36 +1,93 @@
-<div *ngIf="selectedCountry">
-  <h3>
-    Selected country: {{ selectedCountry.name }} ({{
-      selectedCountry.nativeName
-    }})
-  </h3>
-  <label>Capital:</label>
-  <p>{{ selectedCountry.capital }}</p>
-  <label>Population:</label>
-  <p>{{ selectedCountry.population }}</p>
-  <label>Currencies: </label>
-  <ul>
-    <li
-      *ngFor="let currency of selectedCountry.currencies"
-      class="list-group-item clearfix"
-      style="width: fit-content;"
-    >
-      {{ currency.code }} - {{ currency.name }} ({{ currency.symbol }})
-    </li>
-  </ul>
-  <label>Languages: </label>
-  <ul>
-    <li
-      *ngFor="let language of selectedCountry.languages"
-      class="list-group-item clearfix"
-      style="width: fit-content;"
-    >
-      {{ language.name }} ({{ language.nativeName }})
-    </li>
-  </ul>
-  <img
-    [src]="selectedCountry.flag"
-    class="img-responsive"
-    style="max-height: 200px;"
-  />
+<div *ngIf="selectedCountry; else elseBlock">
+  <div class="row">
+    <div class="col-md-4">
+      <h3>
+        {{ selectedCountry.name }}
+        <small class="text-muted">({{ selectedCountry.nativeName }})</small>
+      </h3>
+      <p>Capital: {{ selectedCountry.capital }}</p>
+      <button
+        #toggleMapBtn
+        class="btn btn-primary"
+        (click)="onToggleMap()"
+        style="margin-bottom: 15px;"
+      >
+        Show in map
+      </button>
+    </div>
+    <div class="col-md-4">
+      <ul>
+        <li
+          class="list-group-item list-group-item-dark clearfix"
+          style="font-weight: bold;"
+        >
+          Currencies:
+        </li>
+        <li
+          *ngFor="let currency of selectedCountry.currencies"
+          class="list-group-item clearfix"
+          style="width: fit-content;"
+        >
+          {{ currency.code }} - {{ currency.name }} ({{ currency.symbol }})
+        </li>
+      </ul>
+
+      <ul>
+        <li
+          class="list-group-item list-group-item-dark clearfix"
+          style="font-weight: bold;"
+        >
+          Languages:
+        </li>
+        <li
+          *ngFor="let language of selectedCountry.languages"
+          class="list-group-item clearfix"
+          style="width: fit-content;"
+        >
+          {{ language.name }} ({{ language.nativeName }})
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="mapShowing">
+    <div class="col-md-12">
+      <app-osm-view></app-osm-view>
+    </div>
+    <hr />
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <label>Population:</label>
+      <p>{{ selectedCountry.population }}</p>
+    </div>
+    <div class="col-md-4">
+      <img
+        [src]="selectedCountry.flag"
+        class="img-responsive rounded mx-auto d-block"
+        style="max-height: 200px;"
+      />
+    </div>
+    <div class="col-md-4">
+      <ul>
+        <li
+          class="list-group-item list-group-item-dark clearfix"
+          style="font-weight: bold;"
+        >
+          Bordering countries:
+        </li>
+        <li
+          *ngFor="let border of selectedCountry.borders"
+          class="list-group-item clearfix"
+          style="width: fit-content;"
+        >
+          {{border}}
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
+<ng-template #elseBlock>
+  <p>Please select a country!</p>
+</ng-template>

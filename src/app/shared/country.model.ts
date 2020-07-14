@@ -18,4 +18,6 @@ export interface Country {
   flag: string;
   currencies: Currency[];
   languages: Language[];
+  borders: string[];
+  alpha3Code: string;
 }

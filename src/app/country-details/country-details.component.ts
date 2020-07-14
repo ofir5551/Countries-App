@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Country } from '../shared/country.model';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+
 import { CountryService } from '../shared/country.service';
 
 @Component({
@@ -8,6 +8,9 @@ import { CountryService } from '../shared/country.service';
   styleUrls: ['./country-details.component.css'],
 })
 export class CountryDetailsComponent implements OnInit {
+  @ViewChild('toggleMapBtn') toggleMapBtn: ElementRef;
+  mapShowing: boolean = false;
+
   constructor(private countryService: CountryService) {}
 
   ngOnInit(): void {}
@@ -15,4 +18,12 @@ export class CountryDetailsComponent implements OnInit {
   public get selectedCountry() {
     return this.countryService.selectedCountry;
   }
+
+  onToggleMap() {
+    this.mapShowing = !this.mapShowing;
+    this.toggleMapBtn.nativeElement.innerHTML = this.mapShowing
+      ? 'Close map'
+      : 'Show in map';
+  }
+
 }
