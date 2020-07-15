@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 
 import { Country } from './country.model';
 import * as emojiFlag from 'emoji-flags';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountryService implements OnInit {
+  coordinatesSubject = new Subject<any>();
   countryList: Country[] = [];
   selectedCountry: Country;
   url: string =
@@ -27,25 +29,23 @@ export class CountryService implements OnInit {
   // This request gets the capital name as a parameter, sends a request to an API that converts it
   // to Latitude and Longtitude
 
-  // getWeatherForCapital(capitalName: string) {
-  //   this.http
-  //     .get<any>(
-  //       `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-  //         capitalName
-  //       )}.json?access_token=pk.eyJ1Ijoib2ZpcjU1NTEiLCJhIjoiY2s2M29lcWEzMDk0aDNmcGJrMmtoaGc3YSJ9.UmjEMYvkM3C-U2vZ4PQAPQ&limit=1`
-  //     )
-  //     .subscribe(
-  //       (res) => {
-  //         console.log(capitalName)
-  //         console.log(`Latitude: ${res.features[0].center[1]}`);
-  //         console.log(`Longtitude: ${res.features[0].center[0]}`);
-  //         const latitude = res.features[0].center[1];
-  //         const longtitude = res.features[0].center[0];
-  //
-  //       },
-  //       (err) => console.log(err)
-  //     );
-  // }
+  getLonLatForCapital(capitalName: string) {
+    this.http
+      .get<any>(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          capitalName
+        )}.json?access_token=pk.eyJ1Ijoib2ZpcjU1NTEiLCJhIjoiY2s2M29lcWEzMDk0aDNmcGJrMmtoaGc3YSJ9.UmjEMYvkM3C-U2vZ4PQAPQ&limit=1`
+      )
+      .subscribe(
+        (res) => {
+          const latitude = res.features[0].center[1];
+          const longtitude = res.features[0].center[0];
+
+          this.coordinatesSubject.next({capitalName, latitude, longtitude})
+        },
+        (err) => console.log(err)
+      );
+  }
 
   setCountryByName(name) {
     this.selectedCountry = this.countryList.find(
