@@ -8,8 +8,9 @@ import { CountryService } from '../shared/country.service';
   styleUrls: ['./country-details.component.css'],
 })
 export class CountryDetailsComponent implements OnInit {
+  @ViewChild('map') myMap: ElementRef;
   @ViewChild('toggleMapBtn') toggleMapBtn: ElementRef;
-  mapShowing: boolean = false;
+  showMap: boolean = false;
 
   constructor(private countryService: CountryService) {}
 
@@ -20,10 +21,14 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   onToggleMap() {
-    this.mapShowing = !this.mapShowing;
-    this.toggleMapBtn.nativeElement.innerHTML = this.mapShowing
-      ? 'Close map'
-      : 'Show in map';
-  }
+    setTimeout(
+      () => this.myMap.nativeElement.scrollIntoView({ behavior: 'smooth' }),
+      0
+    );
 
+    this.showMap = !this.showMap;
+    this.toggleMapBtn.nativeElement.innerHTML = this.showMap
+      ? 'Close map'
+      : 'Open map';
+  }
 }

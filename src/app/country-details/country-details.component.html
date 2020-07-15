@@ -73,8 +73,8 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="mapShowing">
-    <div class="col-md-12">
+  <div class="row" #map>
+    <div class="col-md-12" *ngIf="showMap" >
       <app-osm-view></app-osm-view>
     </div>
     <hr />
