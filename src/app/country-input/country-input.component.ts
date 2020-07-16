@@ -22,6 +22,6 @@ export class CountryInputComponent implements OnInit {
   }
 
   onSelectCountry(name) {
-    this.countryService.setCountryByName(name)
+    this.countryService.setSelectedCountry(name)
   }
 }

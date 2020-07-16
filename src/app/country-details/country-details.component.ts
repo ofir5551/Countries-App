@@ -21,7 +21,7 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   onToggleMap() {
-    setTimeout(
+    setTimeout( // TODO - Figure out how to get rid of setTimeout without breaking the scrolling
       () => this.myMap.nativeElement.scrollIntoView({ behavior: 'smooth' }),
       0
     );

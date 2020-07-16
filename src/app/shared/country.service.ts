@@ -12,7 +12,7 @@ export class CountryService implements OnInit {
   coordinatesSubject = new Subject<any>();
   countryList: Country[] = [];
   selectedCountry: Country;
-  url: string =
+  countryURL: string =
     'https://restcountries.eu/rest/v2/all?fields=name;population;capital;region;currencies;languages;nativeName;flag;borders;alpha3Code;alpha2Code';
 
   constructor(private http: HttpClient) {}
@@ -20,7 +20,7 @@ export class CountryService implements OnInit {
   ngOnInit(): void {}
 
   fetchCountries() {
-    this.http.get<Country[]>(this.url).subscribe(
+    this.http.get<Country[]>(this.countryURL).subscribe(
       (res) => (this.countryList = res),
       (err) => console.log(err)
     );
@@ -28,7 +28,6 @@ export class CountryService implements OnInit {
 
   // This request gets the capital name as a parameter, sends a request to an API that converts it
   // to Latitude and Longtitude
-
   getLonLatForCapital(capitalName: string) {
     this.http
       .get<any>(
@@ -41,21 +40,21 @@ export class CountryService implements OnInit {
           const latitude = res.features[0].center[1];
           const longtitude = res.features[0].center[0];
 
-          this.coordinatesSubject.next({capitalName, latitude, longtitude})
+          this.coordinatesSubject.next({ latitude, longtitude });
         },
         (err) => console.log(err)
       );
   }
 
-  setCountryByName(name) {
+  setSelectedCountry(name) {
     this.selectedCountry = this.countryList.find(
-      (country) => country.name == name
+      (country) => country.name === name
     );
 
-    // This part sets meaningful text in each element of selectedCountry.borders array
+    // This part converts the selectedCountry.borders array from Alpha3Code text to 'country name - emoji'
     this.selectedCountry.borders.forEach((borderAlpha3Code, i) => {
-      var border = this.countryList.find(
-        (country) => country.alpha3Code == borderAlpha3Code
+      const border = this.countryList.find(
+        (country) => country.alpha3Code === borderAlpha3Code
       );
       this.selectedCountry.borders[i] = `${border.name} - ${
         emojiFlag.countryCode(border.alpha2Code).emoji

@@ -13,7 +13,7 @@
         (click)="onToggleMap()"
         style="margin-bottom: 15px;"
       >
-        Show in map
+        Open map
       </button>
       <img
         [src]="selectedCountry.flag"
@@ -75,6 +75,7 @@
 
   <div class="row" #map>
     <div class="col-md-12" *ngIf="showMap" >
+      <!-- Map component -->
       <app-osm-view></app-osm-view>
     </div>
     <hr />
@@ -82,5 +83,5 @@
 </div>
 
 <ng-template #elseBlock>
-  <p>Please select a country!</p>
+  <h4>Please select a country!</h4>
 </ng-template>

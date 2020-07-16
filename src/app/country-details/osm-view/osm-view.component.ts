@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class OsmViewComponent implements OnInit, OnDestroy {
   map: any;
-  centeredCountry: string;
+  centeredCapital: string;
   coordinatesSubscription: Subscription;
 
   longtitude: number;
@@ -25,7 +25,7 @@ export class OsmViewComponent implements OnInit, OnDestroy {
   constructor(private countryService: CountryService) {}
 
   ngOnInit() {
-    this.centeredCountry = this.countryService.selectedCountry.name;
+    this.centeredCapital = this.countryService.selectedCountry.capital;
 
     this.coordinatesSubscription = this.countryService.coordinatesSubject.subscribe(
       (data) => {
@@ -35,7 +35,7 @@ export class OsmViewComponent implements OnInit, OnDestroy {
       (err) => console.log(err)
     );
 
-    this.countryService.getLonLatForCapital(this.centeredCountry);
+    this.countryService.getLonLatForCapital(this.centeredCapital);
 
     setTimeout(() => {
       this.map = new Map({
@@ -50,7 +50,7 @@ export class OsmViewComponent implements OnInit, OnDestroy {
           zoom: 5,
         }),
       });
-    }, 1000)    // Fix this so setTimeout isn't necessary for this.longtitude, this.latitude to be defined.
+    }, 1000)    // TODO - Fix this so setTimeout isn't needed for this.longtitude, this.latitude to be defined.
 
   }
 
