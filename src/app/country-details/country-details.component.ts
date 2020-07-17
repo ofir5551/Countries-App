@@ -21,14 +21,12 @@ export class CountryDetailsComponent implements OnInit {
   }
 
   onToggleMap() {
-    setTimeout( // TODO - Figure out how to get rid of setTimeout without breaking the scrolling
+    setTimeout(
+      // TODO - Figure out how to get rid of setTimeout without breaking the scrolling
       () => this.myMap.nativeElement.scrollIntoView({ behavior: 'smooth' }),
       0
     );
 
     this.showMap = !this.showMap;
-    this.toggleMapBtn.nativeElement.innerHTML = this.showMap
-      ? 'Close map'
-      : 'Open map';
   }
 }

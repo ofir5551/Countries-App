@@ -13,7 +13,7 @@
         (click)="onToggleMap()"
         style="margin-bottom: 15px;"
       >
-        Open map
+        {{ !showMap ? "Open map" : "Close map" }}
       </button>
       <img
         [src]="selectedCountry.flag"
@@ -32,7 +32,6 @@
         <li
           *ngFor="let currency of selectedCountry.currencies"
           class="list-group-item clearfix"
-          style="width: fit-content;"
         >
           {{ currency.code }} - {{ currency.name }} ({{ currency.symbol }})
         </li>
@@ -48,7 +47,6 @@
         <li
           *ngFor="let language of selectedCountry.languages"
           class="list-group-item clearfix"
-          style="width: fit-content;"
         >
           {{ language.name }} ({{ language.nativeName }})
         </li>
@@ -65,7 +63,6 @@
         <li
           *ngFor="let border of selectedCountry.borders"
           class="list-group-item clearfix"
-          style="width: fit-content;"
         >
           {{ border }}
         </li>
@@ -74,7 +71,7 @@
   </div>
 
   <div class="row" #map>
-    <div class="col-md-12" *ngIf="showMap" >
+    <div class="col-md-12" *ngIf="showMap">
       <!-- Map component -->
       <app-osm-view></app-osm-view>
     </div>
