@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { CountryService } from '../shared/country.service';
 import { Country } from '../shared/country.model';
@@ -10,18 +10,17 @@ import { Country } from '../shared/country.model';
 })
 export class CountryInputComponent implements OnInit {
   public selectedCountry: Country;
+  @Input() countryList: Country[];
+
+  @Output() countrySelected = new EventEmitter<Country>();
 
   constructor(private countryService: CountryService) {}
 
-  ngOnInit(): void {
-    this.countryService.fetchCountries();
-  }
-
-  public get countryList() {
-    return this.countryService.countryList;
-  }
+  ngOnInit(): void {}
 
   onSelectCountry(name) {
-    this.countryService.setSelectedCountry(name)
+    // this.countryService.setSelectedCountry(name)
+
+    this.countrySelected.emit(name);
   }
 }

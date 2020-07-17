@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 
-import { CountryService } from '../shared/country.service';
+import { Country } from '../shared/country.model';
 
 @Component({
   selector: 'app-country-details',
@@ -11,14 +11,11 @@ export class CountryDetailsComponent implements OnInit {
   @ViewChild('map') myMap: ElementRef;
   @ViewChild('toggleMapBtn') toggleMapBtn: ElementRef;
   showMap: boolean = false;
+  @Input() selectedCountry: Country;
 
-  constructor(private countryService: CountryService) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  public get selectedCountry() {
-    return this.countryService.selectedCountry;
-  }
 
   onToggleMap() {
     setTimeout(

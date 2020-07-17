@@ -1,9 +1,9 @@
 <app-header></app-header>
 
 <div class="container">
-  <app-country-input></app-country-input>
+  <app-country-input [countryList]="countryList" (countrySelected)="countrySelected($event)"></app-country-input>
 
   <hr />
 
-  <app-country-details></app-country-details>
+  <app-country-details [selectedCountry]="selectedCountry"></app-country-details>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class OsmViewComponent implements OnInit, OnDestroy {
   map: any;
-  centeredCapital: string;
+  @Input() centeredCapital: string;
   coordinatesSubscription: Subscription;
 
   longtitude: number;
@@ -25,8 +25,6 @@ export class OsmViewComponent implements OnInit, OnDestroy {
   constructor(private countryService: CountryService) {}
 
   ngOnInit() {
-    this.centeredCapital = this.countryService.selectedCountry.capital;
-
     this.coordinatesSubscription = this.countryService.coordinatesSubject.subscribe(
       (data) => {
         this.longtitude = data.longtitude;
@@ -35,7 +33,7 @@ export class OsmViewComponent implements OnInit, OnDestroy {
       (err) => console.log(err)
     );
 
-    this.countryService.getLonLatForCapital(this.centeredCapital);
+    this.countryService.getLatLonForCapital(this.centeredCapital);
 
     setTimeout(() => {
       this.map = new Map({
