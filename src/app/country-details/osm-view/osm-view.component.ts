@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -7,7 +8,6 @@ import * as olProj from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
 
 import { CountryService } from 'src/app/shared/country.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-osm-view',
@@ -25,15 +25,12 @@ export class OsmViewComponent implements OnInit, OnDestroy {
   constructor(private countryService: CountryService) {}
 
   ngOnInit() {
-    this.coordinatesSubscription = this.countryService.coordinatesSubject.subscribe(
-      (data) => {
-        this.longtitude = data.longtitude;
-        this.latitude = data.latitude;
-      },
-      (err) => console.log(err)
-    );
-
-    this.countryService.getLatLonForCapital(this.centeredCapital);
+    this.coordinatesSubscription = this.countryService
+      .getLatLonForCapital(this.centeredCapital)
+      .subscribe((data) => {
+        this.latitude = data.features[0].center[1];
+        this.longtitude = data.features[0].center[0];
+      });
 
     setTimeout(() => {
       this.map = new Map({
@@ -45,15 +42,13 @@ export class OsmViewComponent implements OnInit, OnDestroy {
         ],
         view: new View({
           center: olProj.fromLonLat([this.longtitude, this.latitude]),
-          zoom: 5,
+          zoom: 7,
         }),
       });
-    }, 1000)    // TODO - Fix this so setTimeout isn't needed for this.longtitude, this.latitude to be defined.
-
+    }, 1000); // TODO - Fix this so setTimeout isn't needed for this.longtitude, this.latitude to be defined.
   }
 
   ngOnDestroy() {
     this.coordinatesSubscription.unsubscribe();
   }
-
 }
