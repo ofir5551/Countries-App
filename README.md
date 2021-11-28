@@ -1,5 +1,4 @@
 # Countries App
 
-An Angular application made for learning purposes.
+An Angular application that provides information about the countries of the world.
 
-Using Bootstrap 4 for styling.
